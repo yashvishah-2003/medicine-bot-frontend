@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard | Medicine Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;  /* remove page scroll */
+    }
+
+    .header {
+      background: #075e54;
+      color: white;
+      padding: 10px 18px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .more-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .content {
+      height: calc(100vh - 60px); /* subtract header height */
+      padding: 10px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: hidden; /* no page scroll */
+    }
+
+    /* KPI GRID */
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    /* KPI CARD */
+    .kpi-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.12);
+    }
+
+    .kpi-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .kpi-value {
+      font-size: 26px;
+      font-weight: bold;
+      margin-top: 6px;
+      color: #075e54;
+    }
+
+    /* CHART GRID LAYOUT */
+    .chart-container-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 14px;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    .chart-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.12);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 230px; /* compact height */
+    }
+
+    .chart-card canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* SIDE MENU */
+    .side-menu {
+      width: 260px;
+      height: 100%;
+      background-color: #ffffff;
+      position: fixed;
+      top: 0;
+      left: -260px;
+      transition: 0.3s ease;
+      box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      padding-top: 10px;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .side-menu-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .close-btn {
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .side-menu-item {
+      padding: 15px;
+      font-size: 17px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .side-menu-item:hover {
+      background-color: #f2f2f2;
+    }
+
+    .logout-btn {
+      font-weight: bold;
+      color: #c62828;
+    }
+
+    .logout-btn:hover {
+      background-color: #ffe3e3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDE NAV MENU -->
+  <div id="sideMenu" class="side-menu">
+    <div class="side-menu-header">
+      <strong>Menu</strong>
+      <span class="close-btn" onclick="toggleMenu()">✖</span>
+    </div>
+
+    <div class="side-menu-item" onclick="window.location.href='index.html'">
+      Chatbot
+    </div>
+    <div class="side-menu-item" onclick="window.location.href='admin.html'">
+      Admin Dashboard
+    </div>
+    <div class="side-menu-item logout-btn" onclick="logoutUser()">
+      Logout
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <button class="more-btn" onclick="toggleMenu()">☰</button>
+    <span>Admin Dashboard</span>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="content">
+
+    <!-- KPI GRID -->
+    <div class="kpi-container">
+
+      <div class="kpi-card">
+        <div class="kpi-header"><span>Total User Messages</span></div>
+        <div class="kpi-value" id="totalMessagesValue">0</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header"><span>Customers Who Ordered</span></div>
+        <div class="kpi-value" id="kpiCustomersOrdersValue">0 / 0</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header"><span>Products Ordered</span></div>
+        <div class="kpi-value" id="productsOrderedValue">0</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header"><span>Units Ordered</span></div>
+        <div class="kpi-value" id="unitsOrderedValue">0</div>
+      </div>
+
+    </div>
+
+    <!-- FIRST ROW OF CHARTS -->
+    <div class="chart-container-grid">
+      <div class="chart-card">
+        <canvas id="messagesOrdersChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <canvas id="salesRepChart"></canvas>
+      </div>
+    </div>
+
+    <!-- SECOND ROW OF CHARTS -->
+    <div class="chart-container-grid">
+      <div class="chart-card">
+        <canvas id="classificationPieChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <canvas id="locationMessagesOrdersChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    async function loadKPIs() {
+      const res = await fetch("http://localhost:8001/api/admin/kpi/total-messages");
+      const data = await res.json();
+      if (data.success)
+        document.getElementById("totalMessagesValue").textContent = data.total_messages;
+    }
+
+    async function loadCustomersOrdered() {
+      const res = await fetch("http://localhost:8001/api/admin/kpi/customers-with-orders");
+      const data = await res.json();
+      if (data.success)
+        document.getElementById("kpiCustomersOrdersValue").textContent =
+          `${data.customers_with_orders} / ${data.total_customers}`;
+    }
+
+    async function loadProductsOrdered() {
+      const res = await fetch("http://localhost:8001/api/admin/kpi/products-ordered");
+      const data = await res.json();
+      if (data.success)
+        document.getElementById("productsOrderedValue").textContent = data.products_ordered;
+    }
+
+    async function loadUnitsOrdered() {
+      const res = await fetch("http://localhost:8001/api/admin/kpi/units-ordered");
+      const data = await res.json();
+      if (data.success)
+        document.getElementById("unitsOrderedValue").textContent = data.units_ordered;
+    }
+
+    async function loadMessagesOrdersChart() {
+      const res = await fetch("http://localhost:8001/api/admin/chart/messages-vs-orders");
+      const data = await res.json();
+      if (!data.success) return;
+
+      const labels = data.data.map(x => x.customer_name);
+      const messages = data.data.map(x => x.messages);
+      const orders = data.data.map(x => x.orders);
+
+      new Chart(document.getElementById("messagesOrdersChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            { label: "User Queries", data: messages, backgroundColor: "rgba(54, 162, 235, 0.9)" },
+            { label: "Orders", data: orders, backgroundColor: "rgba(255, 159, 64, 0.9)" }
+          ]
+        },
+        options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: { padding: { top: 10, bottom: 5 } },
+  plugins: {
+    legend: { 
+      position: "top",
+      labels: { font: { size: 12 }, padding: 10 }
+    },
+    title: { 
+      display: true, 
+      text: "User Queries vs Orders",
+      padding: { top: 5, bottom: 10 },
+      font: { size: 16, weight: "bold" }
+    }
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { beginAtZero: true, grid: { display: false } }
+  }
+}
+
+      });
+    }
+
+    async function loadSalesRepChart() {
+      const res = await fetch("http://localhost:8001/api/admin/chart/salesrep-customers");
+      const data = await res.json();
+      if (!data.success) return;
+
+      const labels = data.data.map(x => x.salesrep);
+      const values = data.data.map(x => x.count);
+
+      new Chart(document.getElementById("salesRepChart"), {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Customers Assigned",
+              data: values,
+              backgroundColor: "rgba(54, 162, 235, 0.9)"
+            }
+          ]
+        },
+        options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: { padding: { top: 10, bottom: 5 } },
+  plugins: {
+    legend: { 
+      position: "top",
+      labels: { font: { size: 12 }, padding: 10 }
+    },
+    title: { 
+      display: true, 
+      text: "Customers Assigned per Sales Rep",
+      padding: { top: 5, bottom: 10 },
+      font: { size: 16, weight: "bold" }
+    }
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { beginAtZero: true, grid: { display: false } }
+  }
+}
+
+      });
+    }
+
+    function generateColors(count) {
+      const baseColors = [
+        "#3498db","#f39c12","#1abc9c",
+        "#9b59b6","#e74c3c","#2ecc71",
+        "#e67e22","#16a085","#8e44ad","#c0392b"
+      ];
+      return Array.from({ length: count }, (_, i) => baseColors[i % baseColors.length]);
+    }
+
+    async function loadClassificationPieChart() {
+      const res = await fetch("http://localhost:8001/api/admin/chart/classification-units");
+      const data = await res.json();
+      if (!data.success) return;
+
+      const labels = data.data.map(x => x.classification);
+      const values = data.data.map(x => x.units);
+
+      new Chart(document.getElementById("classificationPieChart"), {
+        type: "pie",
+        data: {
+          labels,
+          datasets: [{
+            data: values,
+            backgroundColor: generateColors(labels.length),
+            borderWidth: 2,
+            borderColor: "#ffffff",
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: "top" },
+            title: { display: true, text: "Units Ordered by Classification" }
+          }
+        }
+      });
+    }
+
+    async function loadLocationMessagesOrdersChart() {
+      const res = await fetch("http://localhost:8001/api/admin/chart/location-messages-orders");
+      const data = await res.json();
+      console.log("LOCATION DATA:", data);
+
+      if (!data.success) return;
+
+      const labels = data.data.map(x => x.location);
+      const messages = data.data.map(x => x.messages);
+      const orders = data.data.map(x => x.orders);
+
+      new Chart(document.getElementById("locationMessagesOrdersChart"), {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            { 
+              label: "User Queries",
+              data: messages,
+              backgroundColor: "rgba(54, 162, 235, 0.9)"
+            },
+            { 
+              label: "Orders",
+              data: orders,
+              backgroundColor: "rgba(255, 159, 64, 0.9)"
+            }
+          ]
+        },
+        options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: { padding: { top: 10, bottom: 5 } },
+  plugins: {
+    legend: { 
+      position: "top",
+      labels: { font: { size: 12 }, padding: 10 }
+    },
+    title: { 
+      display: true, 
+      text: "User Queries & Orders by Location",
+      padding: { top: 5, bottom: 10 },
+      font: { size: 16, weight: "bold" }
+    }
+  },
+  scales: {
+    x: { grid: { display: false } },
+    y: { beginAtZero: true, grid: { display: false } }
+  }
+}
+
+      });
+    }
+
+    // Sidebar functions
+    function toggleMenu() {
+      const menu = document.getElementById("sideMenu");
+      menu.style.left = (menu.style.left === "0px") ? "-260px" : "0px";
+    }
+
+    function logoutUser() {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+
+    // Initial loads
+    loadKPIs();
+    loadCustomersOrdered();
+    loadProductsOrdered();
+    loadUnitsOrdered();
+    loadMessagesOrdersChart();
+    loadSalesRepChart();
+    loadClassificationPieChart();
+    loadLocationMessagesOrdersChart();
+  </script>
+
+</body>
+</html>
