@@ -228,14 +228,14 @@
 
   <script>
     async function loadKPIs() {
-      const res = await fetch("http://localhost:8001/api/admin/kpi/total-messages");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/kpi/total-messages");
       const data = await res.json();
       if (data.success)
         document.getElementById("totalMessagesValue").textContent = data.total_messages;
     }
 
     async function loadCustomersOrdered() {
-      const res = await fetch("http://localhost:8001/api/admin/kpi/customers-with-orders");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/kpi/customers-with-orders");
       const data = await res.json();
       if (data.success)
         document.getElementById("kpiCustomersOrdersValue").textContent =
@@ -243,21 +243,21 @@
     }
 
     async function loadProductsOrdered() {
-      const res = await fetch("http://localhost:8001/api/admin/kpi/products-ordered");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/kpi/products-ordered");
       const data = await res.json();
       if (data.success)
         document.getElementById("productsOrderedValue").textContent = data.products_ordered;
     }
 
     async function loadUnitsOrdered() {
-      const res = await fetch("http://localhost:8001/api/admin/kpi/units-ordered");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/kpi/units-ordered");
       const data = await res.json();
       if (data.success)
         document.getElementById("unitsOrderedValue").textContent = data.units_ordered;
     }
 
     async function loadMessagesOrdersChart() {
-      const res = await fetch("http://localhost:8001/api/admin/chart/messages-vs-orders");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/chart/messages-vs-orders");
       const data = await res.json();
       if (!data.success) return;
 
@@ -300,7 +300,7 @@
     }
 
     async function loadSalesRepChart() {
-      const res = await fetch("http://localhost:8001/api/admin/chart/salesrep-customers");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/chart/salesrep-customers");
       const data = await res.json();
       if (!data.success) return;
 
@@ -354,7 +354,7 @@
     }
 
     async function loadClassificationPieChart() {
-      const res = await fetch("http://localhost:8001/api/admin/chart/classification-units");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/chart/classification-units");
       const data = await res.json();
       if (!data.success) return;
 
@@ -384,7 +384,7 @@
     }
 
     async function loadLocationMessagesOrdersChart() {
-      const res = await fetch("http://localhost:8001/api/admin/chart/location-messages-orders");
+      const res = await fetch("https://prwfoundary-cqe9hfd4dbgxbhby.centralus-01.azurewebsites.net/api/admin/chart/location-messages-orders");
       const data = await res.json();
       console.log("LOCATION DATA:", data);
 
@@ -460,3 +460,4 @@
 
 </body>
 </html>
+
