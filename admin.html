@@ -34,19 +34,23 @@
     }
 
     .content {
-      height: calc(100vh - 60px); /* subtract header height */
-      padding: 10px 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      overflow: hidden; /* no page scroll */
-    }
+  flex: 1;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
 
     /* KPI GRID */
     .kpi-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
+      height: 14vh;    /* NEW */
+  flex-shrink: 0;  /* NEW */
+
     }
 
     /* KPI CARD */
@@ -72,13 +76,13 @@
     }
 
     /* CHART GRID LAYOUT */
-    .chart-container-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 14px;
-      flex-grow: 1;
-      overflow: hidden;
-    }
+    .chart-row {
+  display: flex;
+  gap: 10px;
+  height: 36vh;
+  flex-shrink: 0;
+}
+
 
     .chart-card {
       background: #ffffff;
@@ -88,7 +92,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 230px; /* compact height */
+      .chart-card {
+  height: 100%;
+}
+
     }
 
     .chart-card canvas {
@@ -202,7 +209,7 @@
     </div>
 
     <!-- FIRST ROW OF CHARTS -->
-    <div class="chart-container-grid">
+    <div class="chart-row">
       <div class="chart-card">
         <canvas id="messagesOrdersChart"></canvas>
       </div>
@@ -212,7 +219,7 @@
     </div>
 
     <!-- SECOND ROW OF CHARTS -->
-    <div class="chart-container-grid">
+    <div class="chart-row">
       <div class="chart-card">
         <canvas id="classificationPieChart"></canvas>
       </div>
@@ -460,4 +467,5 @@
 
 </body>
 </html>
+
 
