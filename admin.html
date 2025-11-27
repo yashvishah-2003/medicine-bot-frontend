@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Admin Dashboard | Medicine Bot</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -159,9 +160,11 @@
     <div class="side-menu-item" onclick="window.location.href='index.html'">
       Chatbot
     </div>
+
     <div class="side-menu-item" onclick="window.location.href='admin.html'">
       Admin Dashboard
     </div>
+
     <div class="side-menu-item logout-btn" onclick="logoutUser()">
       Logout
     </div>
@@ -275,27 +278,23 @@
           ]
         },
         options: {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: { padding: { top: 10, bottom: 5 } },
-  plugins: {
-    legend: { 
-      position: "top",
-      labels: { font: { size: 12 }, padding: 10 }
-    },
-    title: { 
-      display: true, 
-      text: "User Queries vs Orders",
-      padding: { top: 5, bottom: 10 },
-      font: { size: 16, weight: "bold" }
-    }
-  },
-  scales: {
-    x: { grid: { display: false } },
-    y: { beginAtZero: true, grid: { display: false } }
-  }
-}
-
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 10, bottom: 5 } },
+          plugins: {
+            legend: { position: "top", labels: { font: { size: 12 }, padding: 10 } },
+            title: {
+              display: true,
+              text: "User Queries vs Orders",
+              padding: { top: 5, bottom: 10 },
+              font: { size: 16, weight: "bold" }
+            }
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, grid: { display: false } }
+          }
+        }
       });
     }
 
@@ -320,35 +319,31 @@
           ]
         },
         options: {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: { padding: { top: 10, bottom: 5 } },
-  plugins: {
-    legend: { 
-      position: "top",
-      labels: { font: { size: 12 }, padding: 10 }
-    },
-    title: { 
-      display: true, 
-      text: "Customers Assigned per Sales Rep",
-      padding: { top: 5, bottom: 10 },
-      font: { size: 16, weight: "bold" }
-    }
-  },
-  scales: {
-    x: { grid: { display: false } },
-    y: { beginAtZero: true, grid: { display: false } }
-  }
-}
-
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 10, bottom: 5 } },
+          plugins: {
+            legend: { position: "top", labels: { font: { size: 12 }, padding: 10 } },
+            title: {
+              display: true,
+              text: "Customers Assigned per Sales Rep",
+              padding: { top: 5, bottom: 10 },
+              font: { size: 16, weight: "bold" }
+            }
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, grid: { display: false } }
+          }
+        }
       });
     }
 
     function generateColors(count) {
       const baseColors = [
-        "#3498db","#f39c12","#1abc9c",
-        "#9b59b6","#e74c3c","#2ecc71",
-        "#e67e22","#16a085","#8e44ad","#c0392b"
+        "#3498db", "#f39c12", "#1abc9c",
+        "#9b59b6", "#e74c3c", "#2ecc71",
+        "#e67e22", "#16a085", "#8e44ad", "#c0392b"
       ];
       return Array.from({ length: count }, (_, i) => baseColors[i % baseColors.length]);
     }
@@ -399,12 +394,12 @@
         data: {
           labels,
           datasets: [
-            { 
+            {
               label: "User Queries",
               data: messages,
               backgroundColor: "rgba(54, 162, 235, 0.9)"
             },
-            { 
+            {
               label: "Orders",
               data: orders,
               backgroundColor: "rgba(255, 159, 64, 0.9)"
@@ -412,27 +407,23 @@
           ]
         },
         options: {
-  responsive: true,
-  maintainAspectRatio: false,
-  layout: { padding: { top: 10, bottom: 5 } },
-  plugins: {
-    legend: { 
-      position: "top",
-      labels: { font: { size: 12 }, padding: 10 }
-    },
-    title: { 
-      display: true, 
-      text: "User Queries & Orders by Location",
-      padding: { top: 5, bottom: 10 },
-      font: { size: 16, weight: "bold" }
-    }
-  },
-  scales: {
-    x: { grid: { display: false } },
-    y: { beginAtZero: true, grid: { display: false } }
-  }
-}
-
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { top: 10, bottom: 5 } },
+          plugins: {
+            legend: { position: "top", labels: { font: { size: 12 }, padding: 10 } },
+            title: {
+              display: true,
+              text: "User Queries & Orders by Location",
+              padding: { top: 5, bottom: 10 },
+              font: { size: 16, weight: "bold" }
+            }
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, grid: { display: false } }
+          }
+        }
       });
     }
 
