@@ -16,28 +16,29 @@
             align-items: center;
             font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
         }
 
         .login-box {
             background: rgba(255, 255, 255, 0.12);
             padding: 35px 32px;
             border-radius: 18px;
-            width: 480px;
+            width: 90%;
+            max-width: 480px;        /* For desktop */
             text-align: center;
             box-shadow: 0 6px 18px rgba(0,0,0,0.35);
         }
 
         h2 {
-            margin: 0;
-            margin-bottom: 24px;
-            font-size: 24px;
+            margin: 0 0 24px 0;
+            font-size: 1.6rem;
             font-weight: bold;
         }
 
         .login-form {
             display: flex;
             flex-direction: column;
-            gap: 12px;   /* equal spacing between inputs & button */
+            gap: 12px;
             width: 100%;
         }
 
@@ -47,22 +48,22 @@
         }
 
         .login-form input {
-            padding: 12px 14px;
+            padding: 14px;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 1rem;
             outline: none;
         }
 
         .login-form button {
-            padding: 12px 14px;
+            padding: 14px;
             background: #25d366;
             border: none;
             color: white;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 1rem;
             transition: background 0.25s;
         }
 
@@ -73,13 +74,37 @@
         #error-msg {
             margin-top: 14px;
             color: #ffbbbb;
-            font-size: 14px;
-            min-height: 18px; /* keeps layout stable even when no error */
+            font-size: 0.9rem;
+            min-height: 18px;
+        }
+
+        /* ====== RESPONSIVE BREAKPOINTS ====== */
+        @media (max-width: 768px) {   /* iPad / Tablets */
+            .login-box {
+                padding: 28px 24px;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {   /* Phones */
+            .login-box {
+                padding: 22px 18px;
+                border-radius: 14px;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .login-form input, .login-form button {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
 <div class="login-box">
     <h2>Login to Medicine Bot</h2>
 
@@ -131,4 +156,3 @@ async function login() {
 
 </body>
 </html>
-
